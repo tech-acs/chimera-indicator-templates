@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 class PopulationPyramidByArea extends Chart implements BarChart
 {
     use FilterBasedAxisTitle;
+    public bool $IsSample = false;
 
     protected function getTraces(Collection $inputData, array $filter): array
     {
@@ -46,7 +47,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
                 'y' => $result->pluck('age_range')->all(),
                 'text' => $result->pluck('females')->all(),
                 'hoverinfo' => 'text+y',
-                'marker' => ['color' => '#C71585'],
+                // 'marker' => ['color' => '#C71585'],
                 'orientation' => 'h',
                 'name' => __('Females'),
             ]
@@ -63,12 +64,16 @@ class PopulationPyramidByArea extends Chart implements BarChart
         $layout['xaxis']['title']['text'] = __('Population size ') . $this->getAreaBasedAxisTitle($filter) ;
         $layout['xaxis']['showticklabels'] = false;
         $layout['barmode'] = 'relative';
+        if ($this->IsSample) {
+          $layout['colorway'] = [ '#dcdcdc','#808080'];
+        }
         return $layout;
     }
 
     
     protected function loadInputData(array $filter): Collection{
         //Sample data to show if LoadInputData is not implemented
+        $this->IsSample =true;
 
         return collect(
             [
