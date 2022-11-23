@@ -48,7 +48,7 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart, LineChart
         $result = $inputData;
         $finestResolutionFilterPath = $this->getFinestResolutionFilterPath($filter);
         $areas = (new AreaTree())->areas($finestResolutionFilterPath, checksumSafe: false)->pluck('name', 'code');
-        if(!$this->IsSample) {
+        if(!$this->isSampleData) {
             $result = $result->map(function($item) use ($areas) {
                 $item->area_name = $areas[$item->area_code];
                 return $item;
