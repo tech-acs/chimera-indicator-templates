@@ -1,6 +1,6 @@
 <?php
 
-namespace App\IndicatorTemplates;
+namespace App\IndicatorTemplates\Demographic;
 
 use App\Http\Livewire\Chart;
 use App\Services\Interfaces\BarChart;

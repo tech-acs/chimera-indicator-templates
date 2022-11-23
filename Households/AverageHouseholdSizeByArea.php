@@ -1,6 +1,6 @@
 <?php
 
-namespace App\IndicatorTemplates;
+namespace App\IndicatorTemplates\Households;
 
 use App\Http\Livewire\Chart;
 use App\Services\AreaTree;
