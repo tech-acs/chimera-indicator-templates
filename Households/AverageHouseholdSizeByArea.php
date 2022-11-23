@@ -12,12 +12,12 @@ use Illuminate\Support\Collection;
 class AverageHouseholdSizeByArea extends Chart implements BarChart, LineChart
 {
     use FilterBasedAxisTitle;
-    public bool $IsSample = false;
+    private bool $isSampleData = false;
 
     protected function loadInputData(array $filter): Collection
     {
-        $this->IsSample = true;
-        return \collect([
+        $this->isSampleData = true;
+        return collect([
            (object) [
                 'area_name' => 'Area 1',
                 'area_code' => 'area1',
@@ -113,8 +113,15 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart, LineChart
             $layout = parent::getLayout($filter);
             $layout['xaxis']['title']['text'] = $this->getAreaBasedAxisTitle($filter);
             $layout['yaxis']['title']['text'] = __("# of persons");
-            if($this->IsSample){
-                $layout['colorway'] = [ '#dcdcdc','#808080'];
+            if ($this->isSampleData) {
+                $layout['annotations'] = [[
+                    'text' => __('SAMPLE'),
+                    'textangle' => -30,
+                    'opacity' => 0.12,
+                    'xref' => 'paper',
+                    'yref' => 'paper',
+                    'font' => ['color' => 'black', 'size' => 120]
+                ]];
             }
             return $layout;
     }

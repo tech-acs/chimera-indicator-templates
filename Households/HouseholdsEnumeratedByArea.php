@@ -13,17 +13,12 @@ use Illuminate\Support\Collection;
 class HouseholdsEnumeratedByArea extends Chart implements BarChart, LineChart
 {
     use FilterBasedAxisTitle;
-    public bool $IsSample = false;
-    public string $help = "
-        This graph displays the total number of households aggregated by area. By default, the aggregation is done by regions, subsequently users 
-        can select areas to drill down specific perfectures, commune,canton or EAs.<br><br>
-        The values are calculated by counting the total number of households after grouping them into their respective areas.<br><br>
-        <i>Note: Households are counted from field information_generale.</i>
-    ";
+    private bool $isSampleData = false;
+    
     protected function loadInputData(array $filter): Collection
     {
-        $this->IsSample =true;
-        return \collect([
+        $this->isSampleData = true;
+        return collect([
             (object) [
                 'area_name' => 'Area 1',
                 'area_code' => 'area1',
@@ -52,7 +47,6 @@ class HouseholdsEnumeratedByArea extends Chart implements BarChart, LineChart
     {
         
         $result = $inputData;
-      //  $this->setNoData($result);
         $finestResolutionFilterPath = $this->getFinestResolutionFilterPath($filter);
         $areas = (new AreaTree())->areas($finestResolutionFilterPath, checksumSafe: false)->pluck('name', 'code');
         if(!$this->IsSample){
@@ -149,8 +143,15 @@ class HouseholdsEnumeratedByArea extends Chart implements BarChart, LineChart
             $layout['xaxis']['title']['text'] = $this->getAreaBasedAxisTitle($filter);;
             $layout['yaxis']['title']['text'] = __("# of households");
             $layout['barmode'] = 'overlay';
-            if ($this->IsSample) {
-                $layout['colorway'] = [ '#dcdcdc','#808080'];
+            if ($this->isSampleData) {
+                $layout['annotations'] = [[
+                    'text' => __('SAMPLE'),
+                    'textangle' => -30,
+                    'opacity' => 0.12,
+                    'xref' => 'paper',
+                    'yref' => 'paper',
+                    'font' => ['color' => 'black', 'size' => 120]
+                ]];
             }
             return $layout;
 
