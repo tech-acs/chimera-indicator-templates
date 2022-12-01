@@ -61,7 +61,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
         $layout = parent::getLayout($filter);
         $layout['xaxis']['type'] = '';
         $layout['xaxis']['tickmode'] = '';
-        $layout['xaxis']['title']['text'] = __('Population size ') . $this->getAreaBasedAxisTitle($filter) ;
+        $layout['xaxis']['title']['text'] = __('Percentage of population ');
         $layout['xaxis']['showticklabels'] = false;
         $layout['barmode'] = 'relative';
         if ($this->IsSample) {
@@ -71,7 +71,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
     }
 
     
-    protected function loadInputData(array $filter): Collection{
+    protected function getData(array $filter): Collection{
         //Sample data to show if LoadInputData is not implemented
         $this->IsSample =true;
 
@@ -81,7 +81,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
                   'age_range' => '0-4',
                   'range_start' => 0,
                   'males' => '55',
-                  'females' => '56',
+                  'females' => '56',  
                 ],
                 (object) [
                   'age_range' => '5-9',

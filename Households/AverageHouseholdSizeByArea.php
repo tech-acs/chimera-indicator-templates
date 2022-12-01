@@ -14,7 +14,7 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart, LineChart
     use FilterBasedAxisTitle;
     public bool $IsSample = false;
 
-    protected function loadInputData(array $filter): Collection
+    protected function getData(array $filter): Collection
     {
         $this->IsSample = true;
         return \collect([

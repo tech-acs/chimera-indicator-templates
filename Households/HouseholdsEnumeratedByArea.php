@@ -20,7 +20,7 @@ class HouseholdsEnumeratedByArea extends Chart implements BarChart, LineChart
         The values are calculated by counting the total number of households after grouping them into their respective areas.<br><br>
         <i>Note: Households are counted from field information_generale.</i>
     ";
-    protected function loadInputData(array $filter): Collection
+    protected function getData(array $filter): Collection
     {
         $this->IsSample =true;
         return \collect([
