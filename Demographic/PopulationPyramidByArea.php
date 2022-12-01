@@ -12,7 +12,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
     use FilterBasedAxisTitle;
     private bool $isSampleData = false;
 
-    protected function loadInputData(array $filter): Collection
+    protected function getData(array $filter): Collection
     {
         $this->isSampleData = true;
         return collect([
@@ -180,7 +180,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
         $layout = parent::getLayout($filter);
         $layout['xaxis']['type'] = '';
         $layout['xaxis']['tickmode'] = '';
-        $layout['xaxis']['title']['text'] = __('Population size ') . $this->getAreaBasedAxisTitle($filter) ;
+        $layout['xaxis']['title']['text'] = __('Percentage of population ') ;
         $layout['xaxis']['showticklabels'] = false;
         $layout['barmode'] = 'relative';
         if ($this->isSampleData) {
