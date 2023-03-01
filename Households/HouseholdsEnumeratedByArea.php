@@ -2,13 +2,13 @@
 
 namespace App\IndicatorTemplates\Households;
 
-use App\Http\Livewire\Chart;
-use App\Services\Interfaces\BarChart;
-use App\Services\Interfaces\LineChart;
-use App\Services\AreaTree;
-use App\Services\Traits\FilterBasedAxisTitle;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Uneca\Chimera\Http\Livewire\Chart;
+use Uneca\Chimera\Services\Interfaces\BarChart;
+use Uneca\Chimera\Services\Interfaces\LineChart;
+use Uneca\Chimera\Services\AreaTree;
+use Uneca\Chimera\Services\Traits\FilterBasedAxisTitle;
 
 class HouseholdsEnumeratedByArea extends Chart implements BarChart, LineChart
 {

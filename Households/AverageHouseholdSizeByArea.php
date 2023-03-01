@@ -2,11 +2,11 @@
 
 namespace App\IndicatorTemplates\Households;
 
-use App\Http\Livewire\Chart;
-use App\Services\AreaTree;
-use App\Services\Interfaces\BarChart;
-use App\Services\Interfaces\LineChart;
-use App\Services\Traits\FilterBasedAxisTitle;
+use Uneca\Chimera\Http\Livewire\Chart;
+use Uneca\Chimera\Services\AreaTree;
+use Uneca\Chimera\Services\Interfaces\BarChart;
+use Uneca\Chimera\Services\Interfaces\LineChart;
+use Uneca\Chimera\Services\Traits\FilterBasedAxisTitle;
 use Illuminate\Support\Collection;
 
 class AverageHouseholdSizeByArea extends Chart implements BarChart, LineChart
