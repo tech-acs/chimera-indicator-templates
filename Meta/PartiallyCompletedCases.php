@@ -47,15 +47,6 @@ class PartiallyCompletedCases extends Chart implements BarChart
 
         ]);
 
-        // list($selectColumns, $whereConditions) = QueryFragmentFactory::make($this->indicator->questionnaire)->getSqlFragments($filter);
-        // return (new BreakoutQueryBuilder($this->indicator->questionnaire, false))
-        //     ->select(array_merge([
-        //         "SUM(CASE WHEN partial_save_mode IS NULL THEN 0 ELSE 1 END) AS partial"],
-        //         $selectColumns))
-        //     ->from([])
-        //     ->groupBy(['area_code'])
-        //     ->orderBy(['area_name'])
-        //     ->get();
     }
 
     protected function getTraces(Collection $data, string $filterPath): array
