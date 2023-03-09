@@ -23,12 +23,41 @@ class HouseholdsEnumeratedByDayCumulative  extends Chart implements LineChart
         return \collect([
             (object)[
                 'enumeration_date' => Carbon::now()->subDays(4)->format('Y-m-d'),
-                'nice_date' => Carbon::now()->subDay(4)->format('m d,yyyy'), //'Jan 1, 2021',
-                'total' => '1000',
-                'cumulative_sum' => '1000',
+                'nice_date' => Carbon::now()->subDay(4)->format('M d, Y'), //'Jan 1, 2021',
+                'total' => '1500',
+                'cumulative_sum' => '1500',
                 'target' => '1000',
             ],
+            (object)[
+                'enumeration_date' => Carbon::now()->subDays(3)->format('Y-m-d'),
+                'nice_date' => Carbon::now()->subDay(3)->format('M d, Y'), //'Jan 1, 2021',
+                'total' => '500',
+                'cumulative_sum' => '2000',
+                'target' => '2000',
+            ],
+            (object)[
+                'enumeration_date' => Carbon::now()->subDays(2)->format('Y-m-d'),
+                'nice_date' => Carbon::now()->subDay(2)->format('M d, Y'), //'Jan 1, 2021',
+                'total' => '1100',
+                'cumulative_sum' => '3000',
+                'target' => '3000',
+            ],
+            (object)[
+                'enumeration_date' => Carbon::now()->subDays(1)->format('Y-m-d'),
+                'nice_date' => Carbon::now()->subDay(1)->format('M d, Y'), //'Jan 1, 2021',
+                'total' => '900',
+                'cumulative_sum' => '4000',
+                'target' => '4000',
+            ],
+            (object)[
+                'enumeration_date' => Carbon::now()->format('Y-m-d'),
+                'nice_date' => Carbon::now()->format('M d, Y'), //'Jan 1, 2021',
+                'total' => '1000',
+                'cumulative_sum' => '5000',
+                'target' => '5000',
+            ],
 
+            
         ]);
     }
 

@@ -17,18 +17,31 @@ class PopulationEnumeratedByDayCumulative  extends Chart implements LineChart
     public function getData(array $filter = []): Collection
     {
         $this->isSampleData = true;
-        return \collect([
-            (object)[
-                'enumeration_date' => Carbon::now()->subDays(4)->format('Y-m-d'),
-                'nice_date' => Carbon::now()->subDay(4)->format('m d,yyyy'), //'Jan 1, 2021',
+        return collect([
+            (object) [
+                'enumeration_date' =>  Carbon::now()->subDays(4)->format('Y-m-d'),
                 'total' => '1000',
-                'cumulative_sum' => '1000',
-                'target' => '1000',
+            ],
+            (object) [
+                'enumeration_date' =>  Carbon::now()->subDays(3)->format('Y-m-d'),
+                'total' => '1500',
+            ],
+            (object) [
+                'enumeration_date' =>  Carbon::now()->subDays(2)->format('Y-m-d'),
+                'total' => '1100',
+            ],
+            (object) [
+                'enumeration_date' =>  Carbon::now()->subDays(1)->format('Y-m-d'),
+                'total' => '900',
+            ],
+            (object) [
+                'enumeration_date' =>  Carbon::now()->format('Y-m-d'),
+                'total' => '800',
             ],
 
         ]);
-    }
 
+    }
     protected function getTraces(Collection $data, string $filterPath): array
     {
 
