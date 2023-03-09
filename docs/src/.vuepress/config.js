@@ -38,16 +38,6 @@ module.exports = {
     docsDir: '',
     editLinkText: '',
     lastUpdated: false,
-    nav: [
-      {
-        text: 'Templates',
-        link: '/templates/',
-      },
-      {
-        text: 'Dashboard Starter Kit',
-        link: 'https://tech-acs.github.io/chimera-docs/'
-      }
-    ],
     sidebar: {
       '/template/': [
         {
