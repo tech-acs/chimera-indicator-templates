@@ -1,0 +1,19 @@
+{
+  "name": "chimera-indicator-templates",
+  "version": "0.0.1",
+  "description": "Templates to be used with chimera-starter-kit",
+  "main": "index.js",
+  "authors": {
+    "name": "ECA|ACS",
+    "email": ""
+  },
+  "repository": "https://github.com/tech-acs/chimera-indicator-templates.git",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}

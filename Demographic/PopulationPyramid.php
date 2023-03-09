@@ -2,17 +2,17 @@
 
 namespace App\IndicatorTemplates\Demographic;
 
-use App\Http\Livewire\Chart;
-use App\Services\Interfaces\BarChart;
-use App\Services\Traits\FilterBasedAxisTitle;
 use Illuminate\Support\Collection;
+use Uneca\Chimera\Http\Livewire\Chart;
+use Uneca\Chimera\Interfaces\BarChart;
+use Uneca\Chimera\Traits\FilterBasedAxisTitle;
 
-class PopulationPyramidByArea extends Chart implements BarChart
+class PopulationPyramid extends Chart implements BarChart
 {
     use FilterBasedAxisTitle;
     private bool $isSampleData = false;
 
-    protected function getData(array $filter): Collection
+    public function getData(array $filter): Collection
     {
         $this->isSampleData = true;
         return collect([
@@ -133,7 +133,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
         ]);
     }
 
-    protected function getTraces(Collection $inputData, array $filter): array
+    protected function getTraces(Collection $inputData, string $filter): array
     {
         $result = $inputData;
         $total = 0;
@@ -175,7 +175,7 @@ class PopulationPyramidByArea extends Chart implements BarChart
         return [$traceMales, $traceFemales];
     }
 
-    protected function getLayout(array $filter = []): array
+    protected function getLayout(string $filter): array
     {
         $layout = parent::getLayout($filter);
         $layout['xaxis']['type'] = '';
