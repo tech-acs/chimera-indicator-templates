@@ -5,6 +5,7 @@ module.exports = {
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
   title: 'Chimera Indicator Templates',
+  base: '/chimera-indicator-templates/',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -27,12 +28,6 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    
-    resolve:{
-      alias: {
-        '@images': 'docs/src/.vuepress/images'
-      }
-    },
     repo: '',
     editLinks: false,
     docsDir: '',
