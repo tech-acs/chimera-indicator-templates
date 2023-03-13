@@ -10,7 +10,7 @@
                 <h3>{{ indicator.title }}</h3>
                 <p>{{ indicator.description }}</p>
                 <p><code>{{ indicator.slug_id }}</code></p>
-                <img :src="$withBase('/image/'+indicator.slug_id+'.png')" alt="Preview not included" />
+                <img :src="$withBase('/images/'+indicator.slug_id+'.png')" alt="Preview not included" />
             </li>
         </ul>
    </div>

@@ -5,6 +5,7 @@ module.exports = {
    * Ref：https://v1.vuepress.vuejs.org/config/#title
    */
   title: 'Chimera Indicator Templates',
+  base: '/chimera-indicator-templates/',
   /**
    * Ref：https://v1.vuepress.vuejs.org/config/#description
    */
@@ -27,27 +28,11 @@ module.exports = {
    * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
    */
   themeConfig: {
-    
-    resolve:{
-      alias: {
-        '@images': 'docs/src/.vuepress/images'
-      }
-    },
     repo: '',
     editLinks: false,
     docsDir: '',
     editLinkText: '',
     lastUpdated: false,
-    nav: [
-      {
-        text: 'Templates',
-        link: '/templates/',
-      },
-      {
-        text: 'Dashboard Starter Kit',
-        link: 'https://tech-acs.github.io/chimera-docs/'
-      }
-    ],
     sidebar: {
       '/template/': [
         {
@@ -67,5 +52,6 @@ module.exports = {
   plugins: [
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
-  ]
+  ],
+  port: 8081,
 }
