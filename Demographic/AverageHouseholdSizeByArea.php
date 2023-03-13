@@ -99,7 +99,7 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart
     {
         $layout = parent::getLayout($filterPath);
         $layout['xaxis']['title']['text'] = $this->getAreaBasedAxisTitle($filterPath);
-        $layout['yaxis']['title']['text'] = __("Average time (minutes)");
+        $layout['yaxis']['title']['text'] = __("# of household");
         $layout['colorway'] = ['#1e3b87', '#c99c25', '#6f066f', '#7a37aa', '#a30538', '#ff0506', '#dba61f', '#ff6f06', '#fea405', '#ffff05', '#a3d804', '#056e05', '#3939d9', '#0579cc'];
         if ($this->isSampleData) {
             $layout['annotations'] = [[

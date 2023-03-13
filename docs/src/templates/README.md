@@ -9,7 +9,7 @@
             <li v-for="indicator in indicators" :key="indicator.slug_id">
                 <h3>{{ indicator.title }}</h3>
                 <p>{{ indicator.description }}</p>
-                <p><code>{{ indicator.slug_id }}</code></p>
+                <p><code>{{ indicator.slug_id | kebabToPascal  }}</code></p>
                 <img :src="$withBase('/images/'+indicator.slug_id+'.png')" alt="Preview not included" />
             </li>
         </ul>
@@ -18,6 +18,14 @@
   
   <script>
     export default {
+    filters: {
+    kebabToPascal(value) {
+      return value.replace(/-/g, ' ')
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join('');
+    }
+    },
     data () {
       return {
         indicators: []
@@ -29,6 +37,8 @@
       } catch(error) {
         console.error(error)
       }
-    }
+    },
+   
+
   }
   </script>
