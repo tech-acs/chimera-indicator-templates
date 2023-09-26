@@ -61,7 +61,7 @@ class BirthRate extends Chart implements BarChart
                     'name' => $item->area_name,
                 ];
             });
-        }          
+        }
         $data = $areas->map(function ($area) use ($dataKeyByAreaCode) {
             $area->total = $dataKeyByAreaCode[$area->code]->total ?? 0;
             $area->birth = $dataKeyByAreaCode[$area->code]->birth ?? 0;
@@ -69,11 +69,11 @@ class BirthRate extends Chart implements BarChart
 
             return $area;
         });
-        
+
         $totalBirth = $data->sum('birth');
         $totalPopulation = $data->sum('total');
         $totalRate = Helpers::safeDivide($totalBirth, $totalPopulation) * 1000;
-        $data[]= (object) ['total' => $totalPopulation,'birth' => $totalBirth, 'rate' => $totalRate, 'code' => '','name' => 'All '.$this->getAreaBasedAxisTitle($filterPath)];
+        $data[]= (object) ['total' => $totalPopulation,'birth' => $totalBirth, 'rate' => $totalRate, 'code' => '','name' => __('All ').$this->getAreaBasedAxisTitle($filterPath)];
 
         $traceBirthRate = array_merge(
             $this::ValueTraceTemplate,
@@ -86,7 +86,7 @@ class BirthRate extends Chart implements BarChart
                 'name' => 'Crude birth rate per 1000 population',
             ]
         );
-        
+
         return [$traceBirthRate];
     }
 

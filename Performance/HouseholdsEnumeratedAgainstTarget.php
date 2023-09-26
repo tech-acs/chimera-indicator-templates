@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Uneca\Chimera\Http\Livewire\Chart;
 use Uneca\Chimera\Interfaces\BarChart;
 use Uneca\Chimera\Services\AreaTree;
+use Uneca\Chimera\Services\Helpers;
 use Uneca\Chimera\Traits\FilterBasedAxisTitle;
 
 class HouseholdsEnumeratedAgainstTarget  extends Chart implements BarChart
@@ -64,28 +65,43 @@ class HouseholdsEnumeratedAgainstTarget  extends Chart implements BarChart
         }
 
         $questionnaire = $this->indicator->getQuestionnaire();
-        
+
         $endDate = $questionnaire->end_date;
-        
+
         $todayDate = Carbon::now()->format('Y-m-d');
 
         if($todayDate > $endDate->format('Y-m-d')){
             $todayDate = $endDate->format('Y-m-d');
         }
 
+        $now = Carbon::now();
+        $startDate = $questionnaire->start_date->subDays(1);
+
+        $total_Enum_days=$startDate->diffInDays($endDate,false);
+        $days_Since_enum_start=$startDate->diffInDays($now,false);
+        $day_count_yesterday=$startDate->diffInDays($now,false) - 1;
+
+        if($days_Since_enum_start > $total_Enum_days) {
+            $days_Since_enum_start = $total_Enum_days;
+        }
+        if($day_count_yesterday > $total_Enum_days) {
+            $day_count_yesterday = $total_Enum_days;
+        }
+
+
         $dataKeyByAreaCode = $data->keyBy('area_code');
-        $result = $areas->map(function ($area) use ($dataKeyByAreaCode) {
-            $area->expected = $area->value;
+        $result = $areas->map(function ($area) use ($dataKeyByAreaCode,$days_Since_enum_start, $total_Enum_days) {
+            $area->expected_value = Helpers::safeDivide($days_Since_enum_start, $total_Enum_days) * $area->value??0;
             $area->bar_width = 0.7;
-            $area->total = $dataKeyByAreaCode[$area->code]->total ?? 1;
+            $area->total = $dataKeyByAreaCode[$area->code]->total ?? 0;
             return $area;
         });
-        
+
         $traceTodayTarget = array_merge(
             $this::ValueTraceTemplate,
             [
                 'x' => $result->pluck('name')->all(),
-                'y' => $result->pluck('expected')->all(),   
+                'y' => $result->pluck('expected')->all(),
                 'texttemplate' => "%{value:.0f}",
                 'hovertemplate' => "%{label}<br> %{value:.0f}",
                 'textposition' => 'outside',
@@ -97,23 +113,23 @@ class HouseholdsEnumeratedAgainstTarget  extends Chart implements BarChart
             $this::BarTraceTemplate,
             [
                 'x' => $result->pluck('name')->all(),
-                'y' => $result->pluck('total')->all(),  
+                'y' => $result->pluck('total')->all(),
                 'texttemplate' => "%{value:.0f}",
                 'hovertemplate' => "%{label}<br> %{value:.0f}",
                 'width' => $result->pluck('bar_width')->all(),
-                'name' => __('Enumerated'),
+                'name' => __('Mapped households'),
                 'marker' => ['color' => '#1e3b87'],
             ]
         );
         return [$traceTodayTarget, $traceActual];
-   
+
     }
 
     protected function getLayout(string $filterPath): array
     {
         $layout = parent::getLayout($filterPath);
         $layout['xaxis']['title']['text'] = $this->getAreaBasedAxisTitle($filterPath);
-        $layout['yaxis']['title']['text'] = "# of households";
+        $layout['yaxis']['title']['text'] = __("# of households");
         $layout['barmode'] = 'overlay';
         if ($this->isSampleData) {
             $layout['annotations'] = [[

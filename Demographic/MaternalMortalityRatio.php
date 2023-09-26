@@ -73,17 +73,17 @@ class MaternalMortalityRatio extends Chart implements BarChart, LineChart
             $area->rate = Helpers::safeDivide($area->death, $area->birth) * 100000 ;
             return $area;
         });
-        
+
         $totalBirth = $data->sum('birth');
         $totalDeath = $data->sum('death');
         $totalRate = Helpers::safeDivide($totalDeath, $totalBirth) * 100000 ;
-        $data[]= (object) ['death' => $totalDeath,'birth' => $totalBirth, 'rate' => $totalRate, 'expected'=> $this->EXPECTEDVALUE , 'code' => '','name' => 'All '.$this->getAreaBasedAxisTitle($filterPath)];
+        $data[]= (object) ['death' => $totalDeath,'birth' => $totalBirth, 'rate' => $totalRate, 'expected'=> $this->EXPECTEDVALUE , 'code' => '','name' => __('All ').$this->getAreaBasedAxisTitle($filterPath)];
 
         $traceBirthRate = array_merge(
             $this::ValueTraceTemplate,
             [
                 'x' => $data->pluck('name')->all(),
-                'y' => $data->pluck('rate')->all(), 
+                'y' => $data->pluck('rate')->all(),
                 'texttemplate' => "%{value:.2f}",
                 'hovertemplate' => "%{label}<br> %{value:.2f}",
                 'marker' => ['color' => '#1e3b87'],
@@ -101,7 +101,7 @@ class MaternalMortalityRatio extends Chart implements BarChart, LineChart
                 'name' => 'Expected value',
             ]
         );
-        
+
         return [$traceBirthRate, $traceExpected];
     }
 

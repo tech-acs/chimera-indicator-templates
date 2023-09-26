@@ -14,6 +14,10 @@ class HouseholdsEnumeratedAgainstTargetByDay  extends Chart implements BarChart
 {
     use FilterBasedAxisTitle;
     private bool $isSampleData = false;
+
+    public $target = null;
+    public $yaxisTitle = "# of households";
+    public $xaxisTitle = "Date";
     public function getData(array $filter = []): Collection
     {
         $this->isSampleData = true;
@@ -45,8 +49,8 @@ class HouseholdsEnumeratedAgainstTargetByDay  extends Chart implements BarChart
 
     protected function getTraces(Collection $data, string $filterPath): array
     {
-        
-        $areas = (new AreaTree())->areas($filterPath, nameOfReferenceValueToInclude: 'number_of_hh');
+
+        $areas = (new AreaTree())->areas($filterPath, nameOfReferenceValueToInclude: $this->target);
         if($this->isSampleData){
             $areas = $data->map(function ($item) use ($data) {
                 return (object) [
@@ -62,57 +66,61 @@ class HouseholdsEnumeratedAgainstTargetByDay  extends Chart implements BarChart
         $end_date = $questionnaire->end_date;
 
         $total_enum_days=$start_date->diffInDays($end_date,false);
-        
+
         $data = $data->map(function ($row)  use ($totalTarget,$total_enum_days) {
             $row->bar_width = 43200000;
-            $row->target_bar_width = 56300000;         
+            $row->target_bar_width = 56300000;
             $row->dailytarget =Helpers::safeDivide($totalTarget, $total_enum_days, true);
             $row->dailyPerformance =$row->total;
-                
+
             return $row;
         });
 
-        $traceDailyTarget = array_merge(
+        $hasTarget = $data->pluck('target')->sum() > 0 && $this->target;
+        $traces = [];
+
+
+        $traces[] = array_merge(
             $this::ValueTraceTemplate,
             [
                 'x' => $data->pluck('enumeration_date')->all(),
-                'y' => $data->pluck('dailytarget')->all(), 
+                'y' => $data->pluck('dailytarget')->all(),
                 'texttemplate' => "%{value:.0f}",
                 'hovertemplate' => "%{label}<br> %{value:.0f}",
                 'width' => $data->pluck('target_bar_width')->all(),
-                'name' => "Today's target",
+                'name' => __("Today's Target"),
                 'marker' => ['color' => '#c5c5c5','opacity'=>0.4],
             ]
         );
 
-        $traceDailyPerformance = array_merge(
+        $traces[] = array_merge(
             $this::ValueTraceTemplate,
             [
                 'x' => $data->pluck('enumeration_date')->all(),
-                'y' => $data->pluck('dailyPerformance')->all(), 
+                'y' => $data->pluck('dailyPerformance')->all(),
                 'texttemplate' => "%{value:.0f}",
                 'hovertemplate' => "%{label}<br> %{value:.0f}",
                 'width' => $data->pluck('bar_width')->all(),
-                'name' => 'Actual',
+                'name' => __('Actual'),
                 'marker' => ['color' => '#1e3b87'],
             ]
         );
-        
-        return [$traceDailyTarget,$traceDailyPerformance];
+
+        return $traces;
     }
 
     protected function getLayout(string $filterPath): array
     {
-        $layout = parent::getLayout($filterPath);        
+        $layout = parent::getLayout($filterPath);
 
-        $layout['xaxis']['title']['text'] = "Enumeration dates";
-        $layout['yaxis']['title']['text'] = "# of households";
+        $layout['xaxis']['title']['text'] = __($this->xaxisTitle);
+        $layout['yaxis']['title']['text'] = __($this->yaxisTitle);
 
         $questionnaire = $this->indicator->getQuestionnaire();
         $start_date = $questionnaire->start_date->subDays(3)->format('Y-m-d');
         $end_date = $questionnaire->end_date->addDays(3)->format('Y-m-d');
 
-      
+
         $layout['xaxis']['type'] = 'date';
         $layout['xaxis']['range'] = [$start_date, $end_date];
         $layout['xaxis']['rangeselector']['x'] = 0.9;
@@ -127,7 +135,7 @@ class HouseholdsEnumeratedAgainstTargetByDay  extends Chart implements BarChart
                 'font' => ['color' => 'black', 'size' => 120]
             ]];
         }
-        
+
         return $layout;
     }
 }

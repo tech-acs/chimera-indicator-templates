@@ -14,6 +14,20 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart
     use FilterBasedAxisTitle;
     private bool $isSampleData = false;
 
+    /*
+    * Uncomment this function to use the actual data from the database
+    * public function getData(array $filter): Collection
+    * {
+    *     list($selectColumns, $whereConditions) = QueryFragmentFactory::make($this->indicator->questionnaire)->getSqlFragments($filter);
+    *     return (new BreakoutQueryBuilder($this->indicator->questionnaire))
+    *         ->select(array_merge(["SUM(%population_variable%) as population,Count(*) as households"], $selectColumns))
+    *         ->from(['%household_table%'])
+    *         ->where(array_merge(['%household_case_filter%'],$whereConditions))
+    *         ->groupBy(['area_code'])
+    *         ->orderBy(['area_name'])
+    *         ->get();
+    * }
+    */
     public function getData(array $filter): Collection
     {
         $this->isSampleData = true;
@@ -64,7 +78,7 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart
             $areas = $data->map(function ($area) {
                 return (object)['code' => $area->area_code, 'name' => $area->area_name];
             });
-            
+
         }
 
         $data = $areas->map(function ($area) use ($dataKeyByAreaCode) {
@@ -78,15 +92,18 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart
                             'households' => $totalHouseholds,
                             'average_household_size' => $averageHouseholdSize,
                             'area_code'=> '',
-                            'name'=>'All '.$this->getAreaBasedAxisTitle($filterPath)];
-        
+                            'name'=>__('All ').$this->getAreaBasedAxisTitle($filterPath)];
+
         $trace = array_merge(
             $this::ValueTraceTemplate,
             [
                 'x' => $data->pluck('name')->all(),
-                'y' => $data->pluck('average_household_size')->all(),    
+                'y' => $data->pluck('average_household_size')->all(),
                 'texttemplate' => "%{value:.2f}",
-                'hovertemplate' => "%{label}<br> %{value:.2f}",
+                // 'hovertemplate' => "%{label}<br> %{value:.2f}",
+                'hovertemplate' => "<b>%{label}</b><br><br>".__('Avg. household size').": <b>%{value:.2f}</b><br>
+                                    <extra></extra>",
+
                 'name' => __('Avg. household size'),
             ]
         );
@@ -99,7 +116,7 @@ class AverageHouseholdSizeByArea extends Chart implements BarChart
     {
         $layout = parent::getLayout($filterPath);
         $layout['xaxis']['title']['text'] = $this->getAreaBasedAxisTitle($filterPath);
-        $layout['yaxis']['title']['text'] = __("# of household");
+        $layout['yaxis']['title']['text'] = __("# of households");
         $layout['colorway'] = ['#1e3b87', '#c99c25', '#6f066f', '#7a37aa', '#a30538', '#ff0506', '#dba61f', '#ff6f06', '#fea405', '#ffff05', '#a3d804', '#056e05', '#3939d9', '#0579cc'];
         if ($this->isSampleData) {
             $layout['annotations'] = [[

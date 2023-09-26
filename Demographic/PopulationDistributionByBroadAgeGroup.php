@@ -77,7 +77,7 @@ class PopulationDistributionByBroadAgeGroup extends Chart implements BarChart
                     $area->group1 = $dataKeyByAreaCode[$area->code]->group1 ;
                     $area->group2 = $dataKeyByAreaCode[$area->code]->group2 ;
                     $area->group3 = $dataKeyByAreaCode[$area->code]->group3 ;
-                    
+
                 if (isset($dataKeyByAreaCode[$area->code])) {
                     $tot = $dataKeyByAreaCode[$area->code]->group1 + $dataKeyByAreaCode[$area->code]->group2 + $dataKeyByAreaCode[$area->code]->group3;
                     $area->group1_percentp12 = (Helpers::safeDivide($dataKeyByAreaCode[$area->code]->group1, $tot) * 100);
@@ -98,10 +98,10 @@ class PopulationDistributionByBroadAgeGroup extends Chart implements BarChart
         $grand_percentp12_1 = (Helpers::safeDivide($group1_total, $grand_total) * 100);
         $grand_percentp12_2 = (Helpers::safeDivide($group2_total, $grand_total) * 100);
         $grand_percentp12_3 = (Helpers::safeDivide($group3_total, $grand_total) * 100);
-         
+
         $data[] = (object)['group1' => $group1_total,'group2' => $group2_total,'group3' => $group3_total,
                     'group1_percentp12' => $grand_percentp12_1,'group2_percentp12' => $grand_percentp12_2,'group3_percentp12' => $grand_percentp12_3,
-                    'total'=>  $grand_total,'area_code'=> '','name'=>'All '.$this->getAreaBasedAxisTitle($filterPath)];
+                    'total'=>  $grand_total,'area_code'=> '','name'=>__('All ').$this->getAreaBasedAxisTitle($filterPath)];
         $trace1 = array_merge(
             $this::PercentageBarTraceTemplate,
             [
@@ -132,7 +132,7 @@ class PopulationDistributionByBroadAgeGroup extends Chart implements BarChart
                 'name' => '> 64 years',
             ]
         );
-        
+
         return [$trace1, $trace2, $trace3];
     }
 

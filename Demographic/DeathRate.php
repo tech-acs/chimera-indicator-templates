@@ -61,7 +61,7 @@ class DeathRate extends Chart implements BarChart
                     'name' => $item->area_name,
                 ];
             });
-        }          
+        }
         $data = $areas->map(function ($area) use ($dataKeyByAreaCode) {
             $area->total = $dataKeyByAreaCode[$area->code]->total ?? 0;
             $area->death = $dataKeyByAreaCode[$area->code]->death ?? 0;
@@ -69,11 +69,11 @@ class DeathRate extends Chart implements BarChart
 
             return $area;
         });
-        
+
         $totaldeath = $data->sum('death');
         $totalPopulation = $data->sum('total');
         $totalRate = Helpers::safeDivide($totaldeath, $totalPopulation) * 1000;
-        $data[]= (object) ['total' => $totalPopulation,'death' => $totaldeath, 'rate' => $totalRate, 'code' => '','name' => 'All '.$this->getAreaBasedAxisTitle($filterPath)];
+        $data[]= (object) ['total' => $totalPopulation,'death' => $totaldeath, 'rate' => $totalRate, 'code' => '','name' => __('All ').$this->getAreaBasedAxisTitle($filterPath)];
 
         $traceDeath = array_merge(
             $this::ValueTraceTemplate,
