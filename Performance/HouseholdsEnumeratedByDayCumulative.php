@@ -4,7 +4,7 @@ namespace App\IndicatorTemplates\Performance;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Uneca\Chimera\Http\Livewire\Chart;
+use Uneca\Chimera\Livewire\Chart;
 use Uneca\Chimera\Interfaces\BarChart;
 use Uneca\Chimera\Interfaces\LineChart;
 use Uneca\Chimera\Services\AreaTree;

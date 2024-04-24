@@ -3,7 +3,7 @@
 namespace App\IndicatorTemplates\Meta;
 
 use Illuminate\Support\Collection;
-use Uneca\Chimera\Http\Livewire\Chart;
+use Uneca\Chimera\Livewire\Chart;
 use Uneca\Chimera\Interfaces\BarChart;
 use Uneca\Chimera\Models\Area;
 use Uneca\Chimera\Services\AreaTree;
